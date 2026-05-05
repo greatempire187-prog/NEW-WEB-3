@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web3 Authentication System - Login with email or crypto wallet">
+    <meta name="keywords" content="web3, authentication, login, wallet, metamask">
+    <title>Web3 Auth System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="#" class="logo">Web3Auth</a>
+                    <nav class="nav">
+                        <button id="loginBtn" class="btn btn-outline">Login</button>
+                        <button id="registerBtn" class="btn btn-primary">Sign Up</button>
+                        <button id="walletBtn" class="btn btn-wallet">Connect Wallet</button>
+                        
+                        <div id="userMenu" class="user-menu">
+                            <span id="userEmail"></span>
+                            <button id="logoutBtn" class="btn btn-sm btn-outline">Logout</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Landing Section -->
+                <section id="landingSection" class="landing-section">
+                    <div class="hero">
+                        <h2>Welcome to Web3 Auth</h2>
+                        <p>Choose your preferred authentication method to get started</p>
+                    </div>
+                    
+                    <div class="auth-options">
+                        <div id="startEmailAuth" class="auth-card">
+                            <div class="auth-icon">📧</div>
+                            <h3>Email Authentication</h3>
+                            <p>Traditional login with email and password</p>
+                        </div>
+                        
+                        <div id="startWalletAuth" class="auth-card">
+                            <div class="auth-icon">🔐</div>
+                            <h3>Wallet Authentication</h3>
+                            <p>Connect your crypto wallet instantly</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Email Auth Section -->
+                <section id="emailAuthSection" class="auth-section" style="display: none;">
+                    <div class="auth-container">
+                        <div class="auth-tabs">
+                            <button id="loginTab" class="tab-btn active">Login</button>
+                            <button id="registerTab" class="tab-btn">Register</button>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form id="loginForm" class="auth-form">
+                            <h3>Login to Your Account</h3>
+                            
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="email">
+                                <div id="loginEmailError" class="error-message"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                                <div id="loginPasswordError" class="error-message"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary full-width">Login</button>
+                            
+                            <div class="form-footer">
+                                <a href="#" id="forgotPassword">Forgot your password?</a>
+                            </div>
+                        </form>
+                        
+                        <!-- Register Form -->
+                        <form id="registerForm" class="auth-form" style="display: none;">
+                            <h3>Create Your Account</h3>
+                            
+                            <div class="form-group">
+                                <label for="registerEmail">Email</label>
+                                <input type="email" id="registerEmail" placeholder="Enter your email" required autocomplete="email">
+                                <div id="registerEmailError" class="error-message"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="registerPassword">Password</label>
+                                <input type="password" id="registerPassword" placeholder="Create a strong password" required autocomplete="new-password">
+                                <div id="registerPasswordError" class="error-message"></div>
+                                <div id="passwordStrength" class="password-strength"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm your password" required autocomplete="new-password">
+                                <div id="confirmPasswordError" class="error-message"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary full-width">Create Account</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Wallet Auth Section -->
+                <section id="walletAuthSection" class="auth-section" style="display: none;">
+                    <div class="auth-container">
+                        <div class="wallet-description">
+                            <p>Connect your MetaMask wallet to authenticate instantly</p>
+                        </div>
+                        
+                        <!-- Wallet Connect Form -->
+                        <div id="walletConnectForm" class="wallet-form">
+                            <div class="form-group">
+                                <label for="walletAddress">Wallet Address</label>
+                                <input type="text" id="walletAddress" placeholder="Connect your wallet" readonly>
+                            </div>
+                            
+                            <button id="connectWalletBtn" class="btn btn-wallet full-width">Connect MetaMask</button>
+                            <button id="walletAuthBtn" class="btn btn-primary full-width" disabled>Authenticate</button>
+                        </div>
+                        
+                        <!-- Wallet Signing Form -->
+                        <div id="walletSigningForm" class="wallet-form" style="display: none;">
+                            <div class="message-to-sign">
+                                <h4>Sign this message to authenticate</h4>
+                                <div id="messageBox" class="message-box"></div>
+                            </div>
+                            
+                            <button id="signMessageBtn" class="btn btn-primary full-width">Sign Message</button>
+                        </div>
+                        
+                        <div class="form-note">
+                            <p>Make sure you have MetaMask installed and connected to correct network</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section id="profileSection" class="profile-section" style="display: none;">
+                    <div class="profile-container">
+                        <h2>Your Profile</h2>
+                        
+                        <div class="profile-card">
+                            <div class="profile-info">
+                                <div class="info-item">
+                                    <label>Email:</label>
+                                    <span id="profileEmail"></span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label>Wallet:</label>
+                                    <span id="profileWallet"></span>
+                                    <button id="linkWalletBtn" class="btn btn-sm btn-outline">Link Wallet</button>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label>Status:</label>
+                                    <span id="emailVerified" class="verified-badge">Verified</span>
+                                    <span id="emailNotVerified" class="not-verified-badge">Not Verified</span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label>Account Created:</label>
+                                    <span id="profileCreated"></span>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <label>Last Login:</label>
+                                    <span id="profileLastLogin"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Verification Section -->
+                <section id="verificationSection" class="verification-section" style="display: none;">
+                    <div class="verification-container">
+                        <div class="verification-icon">📧</div>
+                        <h2>Check Your Email</h2>
+                        <p>We've sent a verification link to your email address. Please check your inbox and click link to verify your account.</p>
+                        
+                        <div class="verification-actions">
+                            <button id="backToLogin" class="btn btn-outline">Back to Login</button>
+                            <button id="resendVerification" class="btn btn-primary">Resend Email</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div>
+                <div class="loading-spinner"></div>
+                <p id="loadingText">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
